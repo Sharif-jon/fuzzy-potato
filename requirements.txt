@@ -1,3 +1,4 @@
+--prefer-binary
 aiogram==3.3.0
 aiosqlite==0.19.0
 matplotlib==3.8.4
