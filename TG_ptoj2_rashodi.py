@@ -11,7 +11,7 @@ from datetime import datetime
 from openpyxl import Workbook
 import os
 
-TOKEN = "7610405152:AAEnnntG4RbE_fxTU_E7b_955-z0y5G4DRw"
+TOKEN = os.getenv("TOKEN")
 bot = Bot(token=TOKEN, parse_mode=ParseMode.HTML)
 dp = Dispatcher()
 
@@ -303,3 +303,4 @@ async def set_limit_amount(message: Message, state: FSMContext):
 if __name__ == "__main__":
     init_db()
     asyncio.run(dp.start_polling(bot))
+
