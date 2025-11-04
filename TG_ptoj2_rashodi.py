@@ -9,6 +9,8 @@ from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.filters import Command
 from datetime import datetime
 from openpyxl import Workbook
+from fastapi import FastAPI
+import uvicorn
 import os
 
 TOKEN = os.getenv("TOKEN")
@@ -17,6 +19,7 @@ dp = Dispatcher()
 
 DB_NAME = "expenses.db"
 LIMIT_FILE = "limit.txt"
+app = FastAPI()
 
 
 CATEGORY_ICONS = {
@@ -300,7 +303,43 @@ async def set_limit_amount(message: Message, state: FSMContext):
         reply_markup=MAIN_KB
     )
 
+@app.get("/")
+async def health_check():
+    """This endpoint is just for Render's health check."""
+    return {"status": "ok", "message": "Bot is running"}
+
+# 2. Create an async function to run the web server
+async def run_web_server():
+    """Runs the Uvicorn web server."""
+    # Render sets the PORT environment variable. Default to 10000 if not set.
+    port = int(os.environ.get("PORT", 10000))
+    config = uvicorn.Config(
+        app,
+        host="0.0.0.0",  # Important: Binds to all interfaces
+        port=port,
+        log_level="info"
+    )
+    server = uvicorn.Server(config)
+    await server.serve()
+
+# 3. Create an async function to start your bot
+async def run_bot():
+    """Starts the bot polling."""
+    await dp.start_polling(bot)
+
+# 4. Create a main function to run both tasks at the same time
+async def main():
+    """Runs the bot and the web server concurrently."""
+    await asyncio.gather(
+        run_bot(),
+        run_web_server()
+    )
+
+
 if __name__ == "__main__":
-    init_db()
-    asyncio.run(dp.start_polling(bot))
+    try:
+        asyncio.run(main())
+    except (KeyboardInterrupt, SystemExit):
+        print("Bot and server stopped.")
+
 
