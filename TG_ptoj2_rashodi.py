@@ -14,6 +14,7 @@ import uvicorn
 import os
 
 # Configuration from environment variables
+TOKEN = "7610405152:AAHI3YVRHOzTsnpWxrFsMvS4O9NYIVT0bGE"
 TOKEN = os.getenv("TOKEN")
 if not TOKEN:
     print("WARNING: TOKEN environment variable not set. Bot will not run.")
@@ -422,3 +423,4 @@ if __name__ == "__main__":
         asyncio.run(main())
     except (KeyboardInterrupt, SystemExit):
         print("Bot and server stopped.")
+
