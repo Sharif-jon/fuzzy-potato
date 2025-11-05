@@ -1,2 +1,2 @@
 worker: python TG_ptoj2_rashodi.py
-web: python -m http.server $PORT
+web: uvicorn expense_tracker_bot_webhooks:app --host 0.0.0.0 --port $PORT
