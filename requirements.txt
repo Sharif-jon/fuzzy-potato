@@ -1,11 +1,5 @@
-aiogram==3.3.0
-aiosqlite==0.19.0
-matplotlib==3.8.4
-openpyxl==3.1.2
-fpdf==1.7.2
-pip>=24.0
-setuptools>=68.0
-wheel>=0.42
-fastapi
-uvicorn
-
+aiogram==3.13.1
+fastapi==0.115.0
+uvicorn==0.30.3
+matplotlib==3.9.2
+openpyxl==3.1.5
